@@ -2,68 +2,41 @@
 @tailwind utilities;
 
 @theme {
-    --color-whitetext: #FFFFFF;
-    --color-darktext: #212529;
-    --color-purpletext: #8338EC;
-    --color-purplebg: #DDD2FF;
-    --color-yellowbg: #F7BC30;
-    --color-yellowtext: #FFBE0B;
-    --color-orangebg: #FB5607;
-    --color-orangetext: #FD9A6A;
-    --color-pinkbg: #FF006E;
-    --color-pinktext: #FF66A8;
-    --color-redtext: #FA4D4D;
-    --color-bluebg: #3A86FF;
-    --color-bluetext: #89B6FF;
+  --color-whitetext: #FFFFFF;
+  --color-darktext: #212529;
+  --color-purpletext: #8338EC;
+  --color-purplebg: #DDD2FF;
+  --color-yellowbg: #F7BC30;
+  --color-yellowtext: #FFBE0B;
+  --color-orangebg: #FB5607;
+  --color-orangetext: #FD9A6A;
+  --color-pinkbg: #FF006E;
+  --color-pinktext: #FF66A8;
+  --color-redtext: #FA4D4D;
+  --color-bluebg: #3A86FF;
+  --color-bluetext: #89B6FF;
+  --font-firago: "FiraGo", "sans-serif";
+  --font-fredoka: "FredokaOne", "sans-serif"
 }
 
 @font-face {
-  font-family: 'FredokaOne';
-  src: url('/fonts/Fredoka-One.woff2') format('woff2'), url('/fonts/Fredoka-One.woff') format('woff');
+  font-family: 'FiraGO';
+  src: url('/fonts/FiraGO-Regular.woff2') format('woff2'),
+    url('/fonts/FiraGO-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'FiraGO';
-  src: url('/fonts/FiraGO-Light.woff2') format('woff2'), url('/fonts/FiraGO-Light.woff') format('woff');
-  font-weight: 350;
+  font-family: 'FredokaOne';
+  src: url('/fonts/Fredoka-One.woff2') format('woff2'),
+    url('/fonts/Fredoka-One.woff') format('woff');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'FiraGO';
-  src: url('/fonts/FiraGO-Regular.woff2') format('woff2'), url('/fonts/FiraGO-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FiraGO';
-  src: url('/fonts/FiraGO-Medium.woff2') format('woff2'), url('/fonts/FiraGO-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FiraGO';
-  src: url('/fonts/FiraGO-Bold.woff2') format('woff2'), url('/fonts/FiraGO-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-.font-fredoka {
-  font-family: 'FredokaOne', sans-serif;
-}
-
-.font-firago {
-  font-family: 'FiraGO', sans-serif;
-}
 
 :root {
   --background: #ffffff;
