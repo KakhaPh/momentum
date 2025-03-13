@@ -3,11 +3,6 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 
-interface IDropDownProps {
-    children?: React.ReactNode;
-    title: string;
-}
-
 const DropDown: React.FC<IDropDownProps> = ({ children, title }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
