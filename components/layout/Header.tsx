@@ -2,6 +2,8 @@ import { PlusIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import CustomButtom from '../custom/CustomButton'
+import CustomButton from '../custom/CustomButton'
 
 const Header = () => {
     return (
@@ -22,12 +24,12 @@ const Header = () => {
                 </div>
             </div>
 
-            <div className='hidden md:flex w-[533px] h-10 gap-10 font-firago font-extralight text-darktext'>
-                <Link href={'#'} className='text-[16px] leading-none tracking-normal w-[225px] h-[39px] border-[1px] border-purpletext hover:border-purplehover transition duration-200 rounded-[5px] px-5 py-2.5 whitespace-nowrap'>
-                    თანამშრომლის შექმნა
+            <div className='hidden md:flex w-[533px] h-10 gap-10 font-firago font-normal text-headlines'>
+                <Link href={'#'} >
+                    <CustomButton title='თანამშრომლის შექმნა' style='w-[225px] h-[39px]'/>
                 </Link>
-                <Link href={'#'} className='text-[16px] leading-none tracking-normal w-[268px] h-10 rounded-[5px] px-5 py-2.5 flex items-center gap-1 bg-purpletext hover:bg-purplehover transition duration-200 text-whitetext whitespace-nowrap'>
-                    <PlusIcon /> შექმენი ახალი დავალება
+                <Link href={'#'} >
+                    <CustomButton title='შექმენი ახალი დავალება' fill icon={<PlusIcon />} style='w-[268px] h-10'/>
                 </Link>
             </div>
 
