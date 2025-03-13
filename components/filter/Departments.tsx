@@ -5,11 +5,6 @@ import { fetchDepartments } from "../api/department";
 import CustomCheckbox from "../custom/CustomCheckboxe";
 import CustomButton from "../custom/CustomButton";
 
-interface Department {
-    id: number;
-    name: string;
-}
-
 const Departments = () => {
     const [departments, setDepartments] = useState<Department[]>([]);
     const [error, setError] = useState<string | null>(null);

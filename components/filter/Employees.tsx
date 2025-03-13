@@ -5,14 +5,6 @@ import CustomButton from "../custom/CustomButton";
 import { fetchEmployees } from "../api/employees";
 import CustomCheckbox from "../custom/CustomCheckboxe";
 
-interface Employee {
-    id: number;
-    name: string;
-    surname: string;
-    avatar: string;
-    department_id: number;
-}
-
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -48,7 +40,7 @@ const Employees = () => {
 
     if (error) return <>{error}</>
     if (isLoading) return <>Loading employees...</>
-    
+
     return (
         <div className="absolute min-w-[688px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
             <div className="gap-2 min-h-[165px]">

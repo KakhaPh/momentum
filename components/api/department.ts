@@ -1,4 +1,4 @@
-import { request } from "../utils/request";
+import { request } from "../services/request";
 
 export const fetchDepartments = async () => {
     try {

@@ -5,13 +5,9 @@ import CustomCheckbox from "../custom/CustomCheckboxe";
 import CustomButton from "../custom/CustomButton";
 import { fetchPriorities } from "../api/priorities";
 
-interface Priorities {
-    id: number;
-    name: string;
-}
 
 const Priorities = () => {
-    const [Priorities, setPriorities] = useState<Priorities[]>([]);
+    const [Priorities, setPriorities] = useState<Priority[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [checkedState, setCheckedState] = useState<Record<number, boolean>>({});
     const [isLoading, setIsLoading] = useState(true);
