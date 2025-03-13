@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <main>
+        <main className="font-firago lg:px-[120px] md:px-10 sm:px-6 xs:px-4 py-[30px]">
           {children}
         </main>
       </body>
