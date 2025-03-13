@@ -2,6 +2,7 @@ import React from 'react'
 import DropDown from './Dropdown'
 import Departaments from './Departments'
 import Priorities from './Priorities'
+import Employees from './Employees'
 
 const Filter = () => {
     return (
@@ -13,7 +14,7 @@ const Filter = () => {
                 <Priorities />
             </DropDown>
             <DropDown title='თანამშრომელი'>
-
+                <Employees />
             </DropDown>
         </div>
     )
