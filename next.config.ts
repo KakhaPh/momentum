@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'momentum.redberryinternship.ge',
-        pathname: '/storage/employee-avatars/**',
+        pathname: '/storage/**',
       },
     ],
   },
