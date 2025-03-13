@@ -3,7 +3,16 @@
 
 @theme {
   --color-whitetext: #FFFFFF;
-  --color-darktext: #212529;
+  --color-grayshone: #f8f9fa;
+  --color-grayshtwo: #dfe2e6;
+  --color-grayshthree: #cfd4d9;
+  --color-grayshfour: #aeb5bc;
+  --color-graysh: #aeb5bc;
+  --color-validations: #6e757c;
+  --color-subheadlines: #353a3f;
+  --color-headlines: #212529;
+  --color-blackish: #0D0F10;
+  --color-bordercolor: #DEE2E6;
   --color-purpletext: #8338EC;
   --color-purplebg: #DDD2FF;
   --color-purplehover: #A78AE6;
@@ -22,9 +31,18 @@
 
 @font-face {
   font-family: 'FiraGO';
+  src: url('/fonts/FiraGO-Light.woff2') format('woff2'),
+    url('/fonts/FiraGO-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FiraGO';
   src: url('/fonts/FiraGO-Regular.woff2') format('woff2'),
     url('/fonts/FiraGO-Regular.woff') format('woff');
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
