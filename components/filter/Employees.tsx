@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import CustomButton from "../custom/CustomButton";
 import { fetchEmployees } from "../api/employees";
-import CustomCheckbox from "../custom/CustomCheckboxe";
+import CustomCheckbox from "../custom/CustomCheckbox";
 
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);

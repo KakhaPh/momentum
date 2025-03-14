@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchDepartments } from "../api/department";
-import CustomCheckbox from "../custom/CustomCheckboxe";
+import CustomCheckbox from "../custom/CustomCheckbox";
 import CustomButton from "../custom/CustomButton";
+import { FilterContext } from "../context/FilterContext";
 
 const Departments = () => {
     const [departments, setDepartments] = useState<Department[]>([]);
@@ -27,15 +28,29 @@ const Departments = () => {
         getDepartments();
     }, []);
 
-    const handleCheckboxChange = (departmentId: number) => {
+    const { selectedDepartments, setSelectedDepartments } = useContext(FilterContext);
+    const [chooseDepartments, setChoosenDepartments] = useState<string[]>([]);
+
+    const handleDepartmentSelection = (departmentId: number, departmentName: string) => {
         setCheckedState(prev => ({
             ...prev,
             [departmentId]: !prev[departmentId]
         }));
+
+        setChoosenDepartments(prev =>
+            prev.includes(departmentName)
+                ? prev.filter(name => name !== departmentName)
+                : [...prev, departmentName]
+        );
     };
 
     const getSelectedCount = () => {
         return Object.values(checkedState).filter(Boolean).length;
+    };
+
+    const onSubmit = () => {
+        setSelectedDepartments(chooseDepartments)
+        console.log("chooseDepartments:", chooseDepartments);
     };
 
     if (error) return <div className="text-red-500 p-4">{error}</div>;
@@ -44,13 +59,13 @@ const Departments = () => {
     return (
         <div className="absolute min-w-[688px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
             <div className="gap-2 min-h-[400px] max-h-[500px] overflow-y-auto">
-                {departments.map((department) => (
+                {departments?.map((department) => (
                     <div key={department.id} className="p-4">
                         <label className="flex items-center space-x-2 cursor-pointer">
                             <CustomCheckbox
                                 title={department.name}
                                 checked={!!checkedState[department.id]}
-                                onChange={() => handleCheckboxChange(department.id)}
+                                onSelect={() => handleDepartmentSelection(department.id, department.name)}
                             />
                         </label>
                     </div>
@@ -58,11 +73,12 @@ const Departments = () => {
             </div>
             <div className="flex justify-between items-center p-3 border-t border-gray-200">
                 <div className="text-sm text-gray-600">
-                    {getSelectedCount()} selected
+                    {getSelectedCount()} არჩეული
                 </div>
                 <CustomButton
                     title={'არჩევა'}
                     fill
+                    onClick={onSubmit}
                 />
             </div>
         </div>
