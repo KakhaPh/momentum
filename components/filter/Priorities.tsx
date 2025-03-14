@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomCheckbox from "../custom/CustomCheckbox";
 import CustomButton from "../custom/CustomButton";
 import { fetchPriorities } from "../api/priorities";
+import { FilterContext } from "../context/FilterContext";
 
 
 const Priorities = () => {
@@ -27,17 +28,29 @@ const Priorities = () => {
 
         getPriorities();
     }, []);
+const { selectedPriorities, setSelectedPriorities } = useContext(FilterContext);
+    const [choosePriselectedPriorities, setChoosenPriselectedPriorities] = useState<string[]>([]);
 
-    const handleCheckboxChange = (priorityId: number) => {
+    const handlePrioritySelection = (departmentId: number, departmentName: string) => {
         setCheckedState(prev => ({
             ...prev,
-            [priorityId]: !prev[priorityId]
-        }))
+            [departmentId]: !prev[departmentId]
+        }));
+
+        setChoosenPriselectedPriorities(prev =>
+            prev.includes(departmentName)
+                ? prev.filter(name => name !== departmentName)
+                : [...prev, departmentName]
+        );
     };
 
     const getSelectedCount = () => {
         return Object.values(checkedState).filter(Boolean).length;
     }
+
+    const onSubmit = () => {
+        setSelectedPriorities(choosePriselectedPriorities)
+    };
 
     if (error) return <>{error}</>
     if (isLoading) return <>Loading Priorities...</>
@@ -50,7 +63,7 @@ const Priorities = () => {
                             <CustomCheckbox
                                 title={priority.name}
                                 checked={!!checkedState[priority.id]}
-                                onChange={() => handleCheckboxChange(priority.id)}
+                                onSelect={() => handlePrioritySelection(priority.id, priority.name)}
                             />
                         </label>
                     </div>
@@ -63,6 +76,7 @@ const Priorities = () => {
                 <CustomButton
                     title={'არჩევა'}
                     fill
+                    onClick={onSubmit}
                 />
             </div>
         </div>

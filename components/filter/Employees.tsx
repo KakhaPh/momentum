@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomButton from "../custom/CustomButton";
 import { fetchEmployees } from "../api/employees";
 import CustomCheckbox from "../custom/CustomCheckbox";
+import { FilterContext } from "../context/FilterContext";
 
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
@@ -27,16 +28,30 @@ const Employees = () => {
         getEmployees();
     }, []);
 
-    const handleCheckboxChange = (employeeId: number) => {
+    const { selectedEmployees, setSelectedEmployees } = useContext(FilterContext);
+    const [chooseEmployees, setChoosenEmployees] = useState<string[]>([]);
+
+    const handleEmployeesSelection = (departmentId: number, departmentName: string) => {
         setCheckedState(prev => ({
             ...prev,
-            [employeeId]: !prev[employeeId]
+            [departmentId]: !prev[departmentId]
         }));
+
+        setChoosenEmployees(prev =>
+            prev.includes(departmentName)
+                ? prev.filter(name => name !== departmentName)
+                : [...prev, departmentName]
+        );
     };
 
     const getSelectedCount = () => {
         return Object.values(checkedState).filter(Boolean).length;
-    }
+    };
+
+    const onSubmit = () => {
+        setSelectedEmployees(chooseEmployees)
+    };
+
 
     if (error) return <>{error}</>
     if (isLoading) return <>Loading employees...</>
@@ -51,7 +66,7 @@ const Employees = () => {
                                 avatar={employee.avatar}
                                 title={`${employee.name} ${employee.surname}`}
                                 checked={!!checkedState[employee.id]}
-                                onChange={() => handleCheckboxChange(employee.id)}
+                                onSelect={() => handleEmployeesSelection(employee.id, employee.name)}
                             />
                         </label>
                     </div>
@@ -64,6 +79,7 @@ const Employees = () => {
                 <CustomButton
                     title={'არჩევა'}
                     fill
+                    onClick={onSubmit}
                 />
             </div>
         </div>
