@@ -38,7 +38,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
 
 			{hasActiveFilters && (
 				<p
-					className="text-darktext text-[14px] font-medium text-center cursor-pointer"
+					className="text-subheadlines text-[14px] leading-[100%] font-medium text-center cursor-pointer"
 					onClick={cleanBar}
 				>
 					გასუფთავება

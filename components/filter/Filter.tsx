@@ -24,7 +24,7 @@ const Filter = () => {
                     <Employees />
                 </DropDown>
             </div>
-            <div className="mt-5">
+            <div className="pt-8 h-[29px]">
                 <FilterBar
                     selectedDepartments={selectedDepartments}
                 />
