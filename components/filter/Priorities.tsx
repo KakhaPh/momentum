@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import CustomCheckbox from "../custom/CustomCheckboxe";
+import CustomCheckbox from "../custom/CustomCheckbox";
 import CustomButton from "../custom/CustomButton";
 import { fetchPriorities } from "../api/priorities";
 
