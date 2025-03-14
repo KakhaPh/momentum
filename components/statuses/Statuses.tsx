@@ -15,7 +15,6 @@ const StatusBoard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Fetch both statuses and tasks in parallel
         const [statusesData, tasksData] = await Promise.all([
           fetchStatuses(),
           fetchTasks()
@@ -34,7 +33,6 @@ const StatusBoard = () => {
     fetchData();
   }, []);
 
-  // Group tasks by status ID
   const getTasksByStatusId = (statusId: number) => {
     return tasks.filter(task => task.status.id === statusId);
   };
@@ -43,7 +41,7 @@ const StatusBoard = () => {
   if (isLoading) return <div>Loading data...</div>;
 
   return (
-    <div className='grid grid-cols-4 w-full h-fit gap-[50px] mt-20'>
+    <div className='grid grid-cols-4 w-full h-fit gap-[50px] mt-12'>
       {statuses.map((status, index) => {
         const statusTasks = getTasksByStatusId(status.id);
         return (
