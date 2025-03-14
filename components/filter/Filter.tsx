@@ -9,7 +9,7 @@ import FilterBar from './FilterBar';
 import { FilterContext } from '../context/FilterContext';
 
 const Filter = () => {
-    const { selectedDepartments } = useContext(FilterContext);
+    const { selectedDepartments, selectedPriorities, selectedEmployees } = useContext(FilterContext);
 
     return (
         <>
@@ -27,6 +27,8 @@ const Filter = () => {
             <div className="pt-8 h-[29px]">
                 <FilterBar
                     selectedDepartments={selectedDepartments}
+                    selectedPriorities={selectedPriorities}
+                    selectedEmployees={selectedEmployees}
                 />
             </div>
         </>

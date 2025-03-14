@@ -50,7 +50,6 @@ const Departments = () => {
 
     const onSubmit = () => {
         setSelectedDepartments(chooseDepartments)
-        console.log("chooseDepartments:", chooseDepartments);
     };
 
     if (error) return <div className="text-red-500 p-4">{error}</div>;
