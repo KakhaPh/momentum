@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../common/Card';
 import { statusColors } from '../utils/colors';
+import Link from 'next/link';
 
 interface StatusColumnProps {
     status: Status;
@@ -17,11 +18,13 @@ const StatusColumn: React.FC<StatusColumnProps> = ({ status, statusIndex, tasks 
 
             {tasks.length > 0 ? (
                 tasks.map(task => (
-                    <Card
-                        key={task.id}
-                        task={task}
-                        statusColorBorder={statusColors[statusIndex % statusColors.length].border}
-                    />
+                    <Link key={task.id} href={`/tasks/${task.id}`}>
+                        <Card
+                            key={task.id}
+                            task={task}
+                            statusColorBorder={statusColors[statusIndex % statusColors.length].border}
+                        />
+                    </Link>
                 ))
             ) : (
                 <div className={`card min-h-[217px] border-[1px] ${statusColors[statusIndex % statusColors.length].border} p-5 flex items-center justify-center text-gray-400 italic rounded-[15px]`}>
