@@ -9,3 +9,13 @@ export const fetchTasks = async (): Promise<Task[]> => {
         throw error;
     }
 };
+
+export const fetchTask = async (id: number): Promise<singleTask> => {
+    try {
+        const response = await request.get(`tasks/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching task:", error);
+        throw error;
+    }
+};
