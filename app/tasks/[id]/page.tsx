@@ -2,6 +2,7 @@
 
 import { fetchStatuses } from '@/components/api/statuses';
 import { fetchTask } from '@/components/api/tasks';
+import TaskStatusSelect from '@/components/statuses/TaskStatusSelect';
 import { departmentColors, priorityColors } from '@/components/utils/colors';
 import { Calendar, PieChart, User } from 'lucide-react';
 import Image from 'next/image';
@@ -13,8 +14,8 @@ interface TaskPageProps {
 }
 
 const TaskPage = ({ params }: TaskPageProps) => {
-    const [task, setTask] = useState<any>();
-    const [isStatuses, setStatuses] = useState<Status[]>([]);
+    const [task, setTask] = useState<SingleTask | null>(null);
+    const [statuses, setStatuses] = useState<Status[]>([]);
     const [id, setId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -44,12 +45,10 @@ const TaskPage = ({ params }: TaskPageProps) => {
 
     const formatDate = (isoDate: string) => {
         const date = new Date(isoDate);
-        
         const weekdays = ['კვი', 'ორშ', 'სამ', 'ოთხ', 'ხუთ', 'პარ', 'შაბ'];
         const weekday = weekdays[date.getDay()];
-    
         const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    
+
         return `${weekday} - ${formattedDate}`;
     };
 
@@ -95,14 +94,15 @@ const TaskPage = ({ params }: TaskPageProps) => {
                 <p className='font-medium text-[24px] leading-[100%] tracking-normal text-headlines pt-9 pb-6'>დავალების დეტალები</p>
                 <div className='flex gap-[68px]'>
                     <div className='flex py-7 gap-2 w-[166px]'>
-                        <PieChart className='text-[#474747]'/> <span className='text-[#474747]'>სტატუსი</span>
+                        <PieChart className='text-[#474747]' /> <span className='text-[#474747]'>სტატუსი</span>
                     </div>
-                    <select>
-                        {isStatuses.map(status => (
-                            <option key={status.id} value={status.id}>{status.name}</option>
-                        ))}
-                    </select>
-                    {task.status.name}
+                    {statuses.length > 0 && (
+                        <TaskStatusSelect
+                            currentStatus={task.status}
+                            taskId={task.id}
+                            statuses={statuses}
+                        />
+                    )}
                 </div>
 
                 <div className='flex gap-[68px]'>
@@ -132,7 +132,7 @@ const TaskPage = ({ params }: TaskPageProps) => {
                     <div className='flex py-7 gap-2 w-[166px]'>
                         <Calendar className='text-[#474747]' /> <span className='text-[#474747]'>დავალების ვადა</span>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center text-[#474747]">
                         {formatDate(task.due_date)}
                     </div>
                 </div>

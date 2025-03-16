@@ -10,7 +10,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
     }
 };
 
-export const fetchTask = async (id: number): Promise<singleTask> => {
+export const fetchTask = async (id: number): Promise<SingleTask> => {
     try {
         const response = await request.get(`tasks/${id}`);
         return response.data;
