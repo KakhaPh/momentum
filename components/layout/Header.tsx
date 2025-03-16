@@ -13,9 +13,10 @@ const Header = () => {
     return (
         <header className="sticky top-0 w-full h-[100px] flex justify-between items-center lg:px-[120px] md:px-10 sm:px-6 xs:px-4 py-[30px] bg-white z-10">
             <div className='flex w-[210px] h-[38px] gap-1'>
-                <div className='font-fredoka text-purpletext w-[168px] h-[38px] pt-[3.5px] text-[31px] leading-[100%]'>
+                <Link href={"/"} className='font-fredoka text-purpletext w-[168px] h-[38px] pt-[3.5px] text-[31px] leading-[100%]'>
                     Momentum
-                </div>
+                </Link>
+             
                 <div>
                     <Image
                         src={'/images/Hourglass.svg'}
@@ -39,4 +40,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Header;
