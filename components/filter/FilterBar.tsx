@@ -42,43 +42,43 @@ const FilterBar: React.FC<FilterBarProps> = ({
     };
 
     const hasActiveFilters =
-        selectedDepartments.length > 0 || 
-        selectedPriorities.length > 0  ||
+        selectedDepartments.length > 0 ||
+        selectedPriorities.length > 0 ||
         selectedEmployees.length > 0;
     return (
         <div className="flex items-center gap-2">
-			{selectedDepartments.map((deprt) => (
-				<FilterBarItem
-					key={deprt}
-					header={deprt}
-					onRemove={() => removeDepartmentFilter(deprt)}
-				/>
-			))}
+            {selectedDepartments.map((deprt) => (
+                <FilterBarItem
+                    key={deprt}
+                    header={deprt}
+                    onRemove={() => removeDepartmentFilter(deprt)}
+                />
+            ))}
 
-			{selectedPriorities.map((prty) => (
-				<FilterBarItem
-					key={prty}
-					header={prty}
-					onRemove={() => removePriorityFilter(prty)}
-				/>
-			))}
+            {selectedPriorities.map((prty) => (
+                <FilterBarItem
+                    key={prty}
+                    header={prty}
+                    onRemove={() => removePriorityFilter(prty)}
+                />
+            ))}
 
-			{selectedEmployees.map((empl) => (
-				<FilterBarItem
-					key={empl}
-					header={empl}
-					onRemove={() => removeEmployeesFilter(empl)}
-				/>
-			))}
+            {selectedEmployees.map((empl) => (
+                <FilterBarItem
+                    key={empl}
+                    header={empl}
+                    onRemove={() => removeEmployeesFilter(empl)}
+                />
+            ))}
 
-			{hasActiveFilters && (
-				<p
-					className="text-subheadlines text-[14px] leading-[100%] font-medium text-center cursor-pointer"
-					onClick={cleanBar}
-				>
-					გასუფთავება
-				</p>
-			)}
+            {hasActiveFilters && (
+                <p
+                    className="text-subheadlines text-[14px] leading-[100%] font-medium text-center cursor-pointer"
+                    onClick={cleanBar}
+                >
+                    გასუფთავება
+                </p>
+            )}
         </div>
     );
 };

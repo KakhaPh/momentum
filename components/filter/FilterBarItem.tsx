@@ -4,8 +4,8 @@ import React from "react";
 import { XIcon } from "lucide-react";
 
 type FilterBar = {
-	header: string;
-	onRemove: () => void;
+    header: string;
+    onRemove: () => void;
 };
 
 const FilterBarItem: React.FC<FilterBar> = ({ header, onRemove }) => {

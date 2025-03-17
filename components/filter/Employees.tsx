@@ -56,35 +56,46 @@ const Employees = () => {
     };
 
 
-    if (error) return <>{error}</>
-    if (isLoading) return <>Loading employees...</>
+    if (error) return <div className="text-redtext p-4">{error}</div>;
+
 
     return (
-        <div className="absolute min-w-[688px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
-            <div className="gap-2 min-h-[165px]">
-                {employees.map((employee) => (
-                    <div key={employee.id} className="p-4">
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <CustomCheckbox
-                                avatar={employee.avatar}
-                                title={`${employee.name} ${employee.surname}`}
-                                checked={!!checkedState[employee.id]}
-                                onSelect={() => handleEmployeesSelection(employee.id, employee.name)}
-                            />
-                        </label>
+        <div className="absolute min-w-[688px] min-h-[234px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
+            {isLoading ? (
+                <div className="flex justify-center items-center h-[234px]">
+                    <div className="text-center p-8">
+                        <div className="w-12 h-12 border-4 border-purpletext/20 border-t-purpletext rounded-full animate-spin mb-4 mx-auto"></div>
                     </div>
-                ))}
-            </div>
-            <div className="flex justify-between items-center p-3 border-t border-gray-200">
-                <div className="text-sm text-gray-600">
-                    {getSelectedCount()} selected
                 </div>
-                <CustomButton
-                    title={'არჩევა'}
-                    fill
-                    onClick={onSubmit}
-                />
-            </div>
+            ) : (
+                <>
+                    <div className="gap-2 min-h-[165px]">
+                        {employees.map((employee) => (
+                            <div key={employee.id} className="p-4">
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                    <CustomCheckbox
+                                        avatar={employee.avatar}
+                                        title={`${employee.name} ${employee.surname}`}
+                                        checked={!!checkedState[employee.id]}
+                                        onSelect={() => handleEmployeesSelection(employee.id, employee.name)}
+                                    />
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-between items-center p-3 border-t border-gray-200">
+                        <div className="text-sm text-gray-600">
+                            {getSelectedCount()} selected
+                        </div>
+                        <CustomButton
+                            title={'არჩევა'}
+                            fill
+                            onClick={onSubmit}
+                        />
+                    </div>
+                </>
+            )}
+
         </div>
     );
 };
