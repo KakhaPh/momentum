@@ -169,9 +169,6 @@ const TaskCommentSection = ({ taskId }: TaskCommentSectionProps) => {
                                     width={38}
                                     height={38}
                                     className="rounded-full object-left-top object-cover"
-                                    onError={(e) => {
-                                        e.currentTarget.src = '/images/Hourglass.png';
-                                    }}
                                 />
                                 <div className="flex-1 w-[500px]">
                                     <p className="font-medium text-lg leading-[100%] tracking-normal text-headlines pb-2">{comment.author_nickname}</p>
