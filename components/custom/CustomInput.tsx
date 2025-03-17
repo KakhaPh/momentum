@@ -21,7 +21,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
             <p className="text-headlines">{header}</p>
             <input
                 type={type}
-                className={`p-2.5 rounded-md border-[1px] outline-none appearance-none
+                className={`p-2.5 rounded-md border-[1px] outline-none appearance-none bg-white
                         ${style === "default" && "border-graysh"}
                         ${style === "error" && "border-redtext"}
                         ${style === "success" && "border-greentext"}

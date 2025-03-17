@@ -57,15 +57,24 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     return (
         <div className="flex flex-col gap-2">
             <p className="text-headlines">{header}</p>
-            <div ref={dropdownRef} className="relative">
+            <div ref={dropdownRef} className="relative bg-white">
                 <div
                     className={`p-2.5 rounded-md border-[1px] outline-none appearance-none flex justify-between items-center cursor-pointer
                         ${!error ? "border-graysh" : "border-redtext"}
                         ${selected ? "text-black" : "text-gray-400"}
                     `}
                     onClick={() => setIsOpen(!isOpen)}
-                >
-                    <span>{selected ? selected.name : placeholder}</span>
+                >   
+                    <span>
+                        {selected ? (
+                            <div className="flex">
+                                {selected.icon && <Image src={selected.icon} width={20} height={20} alt="icon" className="rounded-full h-6 w-6 object-cover object-top mr-2" />}
+                                {selected.name}
+                            </div>
+                        ) : (
+                            placeholder
+                        )}
+                    </span>
                     <ChevronDown className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
                 </div>
 
@@ -78,7 +87,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                                 onClick={() => handleSelect(option)}
                             >
                                 {option.icon && 
-                                    <Image src={option.icon} width={100} height={100} style={{width: "auto", height: "auto"}} alt="icon" className="w-5 h-5 mr-2" />
+                                    <Image src={option.icon} width={20} height={20} alt="icon" className="rounded-full h-7 w-7 object-cover object-top mr-4" />
                                 }
                                 <span className={selected?.id === option.id ? "font-medium" : ""}>{option.name}</span>
                                 {selected?.id === option.id && <Check size={16} className="ml-auto text-greentext" />}
