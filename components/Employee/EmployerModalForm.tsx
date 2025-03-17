@@ -6,7 +6,7 @@ import CustomButton from "@/components/custom/CustomButton";
 import CustomInput from "../custom/CustomInput";
 import { request } from "../services/request";
 import { fetchDepartments } from "../api/department";
-import { CreateEmployeeFormSchema, EmployeeFormSchema } from "../FormSchema/EmployeeSchema";
+import { CreateEmployeeFormSchema, EmployeeFormSchema } from "../formSchema/EmployeeSchema";
 import CustomSelectDepartments from "../custom/CustomSelectDepartments";
 import CustomFileUpload from "../custom/CustomFileUpload";
 
