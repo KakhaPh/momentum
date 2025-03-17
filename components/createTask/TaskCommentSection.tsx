@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Reply } from 'lucide-react';
 import { fetchComments, postComment } from '../api/comments';
-import Image from 'next/image';
 
 interface Comment {
     id: number;
@@ -163,15 +162,12 @@ const TaskCommentSection = ({ taskId }: TaskCommentSectionProps) => {
                     comments.map((comment) => (
                         <div key={comment.id} className="mb-6">
                             <div className="flex items-start gap-3">
-                            <Image
+                                <img
                                     src={comment.author_avatar}
                                     alt={comment.author_nickname}
                                     width={38}
                                     height={38}
                                     className="rounded-full object-left-top object-cover"
-                                    onError={(e) => {
-                                        e.currentTarget.src = '/images/Hourglass.png';
-                                    }}
                                 />
                                 <div className="flex-1 w-[500px]">
                                     <p className="font-medium text-lg leading-[100%] tracking-normal text-headlines pb-2">{comment.author_nickname}</p>
@@ -227,7 +223,7 @@ const TaskCommentSection = ({ taskId }: TaskCommentSectionProps) => {
                                 <div className="ml-12 mt-4 space-y-4">
                                     {comment.sub_comments.map((reply) => (
                                         <div key={reply.id} className="flex items-start gap-3">
-                                            <Image
+                                            <img
                                                 src={reply.author_avatar}
                                                 alt={reply.author_nickname}
                                                 width={32}
