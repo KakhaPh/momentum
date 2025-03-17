@@ -57,7 +57,7 @@ const Statuses = () => {
   if (isLoading) return <div>Loading data...</div>;
 
   return (
-    <div className='grid grid-cols-4 w-full h-fit gap-[50px] mt-12'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full h-fit gap-4 md:gap-6 lg:gap-[50px] mt-6 md:mt-12'>
       {statuses.map((status, index) => {
         const statusTasks = getTasksByStatusId(status.id);
         return (
