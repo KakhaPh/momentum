@@ -12,7 +12,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ task, statusColorBorder }) => {
     return (
-        <div className={`card min-h-[217px] border-[1px] ${statusColorBorder} p-5 flex flex-col gap-3 rounded-[15px]`}>
+        <div className={`card min-h-[230px] border-[1px] ${statusColorBorder} p-5 flex flex-col gap-3 rounded-[15px]`}>
             <div className="flex justify-between">
                 <div className='flex gap-2'>
                     <div className={`flex gap-1 justify-center w-[86px] h-[26px] rounded-md p-1 border-[0.5px] text-xs font-bold ${priorityColors[task.priority.id]}`}>
@@ -34,9 +34,9 @@ const Card: React.FC<CardProps> = ({ task, statusColorBorder }) => {
                 </div>
             </div>
 
-            <div className="p-3 grid gap-3">
+            <div className="grid min-h-[140px] p-3">
                 <h3 className="font-medium text-[15px] leading-[100%] text-headlines">{task.name}</h3>
-                <p className="text-sm text-subheadlines line-clamp-2">{truncateText(task.description)}</p>
+                <p className="text-sm text-subheadlines">{truncateText(task.description)}</p>
             </div>
 
             <div className="flex justify-between items-center mt-auto pt-2">

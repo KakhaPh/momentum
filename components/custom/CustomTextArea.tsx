@@ -20,7 +20,7 @@ const CustomTextArea: React.FC<CustomTextAreaProps> = ({
         <div className="flex flex-col gap-2">
             <p className="text-headlines">{header}</p>
             <textarea
-                className={`p-2.5 rounded-md border-[1px] outline-none appearance-none
+                className={`p-2.5 rounded-md border-[1px] outline-none appearance-none bg-white
                         ${style === "default" && "border-graysh"}
                         ${style === "error" && "border-redtext"}
                         ${style === "success" && "border-greentext"}

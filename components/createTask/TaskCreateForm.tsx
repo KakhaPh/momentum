@@ -51,7 +51,6 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const [priorities, setPriorities] = useState<Priority[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
     const [employees, setEmployees] = useState<Employee[]>([]);
-    const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
@@ -72,7 +71,6 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                 setPriorities(prioritiesData);
                 setDepartments(departmentsData);
                 setEmployees(employeesData);
-                setFilteredEmployees(employeesData);
             } catch (error) {
                 console.error("Failed to fetch initial data:", error);
             }
@@ -81,9 +79,6 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
         fetchInitialData();
     }, []);
 
-    useEffect(() => {
-        setFilteredEmployees(employees);
-    }, [employees]);
 
     useEffect(() => {
         const savedFormString = sessionStorage.getItem("taskForm");
@@ -172,10 +167,10 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const selectedEmployee = employees.find(e => e.id === watch("employee_id")) || null;
 
     return (
-        <div className="flex border-[0.3px] border-purplebg rounded-sm bg-[#f9f7fd] w-full min-h-[958px]">
+        <div className="flex flex-col border-[0.3px] border-purplebg rounded-sm bg-[#f9f7fd] w-full min-h-[958px] p-4 md:p-8 lg:p-12">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex pt-16 pl-[52px] gap-40">
-                    <div className="flex flex-col gap-6 w-[550px]">
+                <div className="flex flex-col lg:flex-row pt-4 lg:pt-4 px-2 gap-6 lg:gap-40">
+                    <div className="flex flex-col gap-6 w-full lg:w-[550px]">
                         <CustomInput
                             header="სათაური*"
                             label={
@@ -188,7 +183,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                             })}
                             style={getInputStyle("name")}
                         />
-                        <div className="pt-8">
+                        <div className="pt-4 lg:pt-8">
                             <CustomTextArea
                                 header="აღწერა*"
                                 label={
@@ -203,7 +198,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                 rows={4}
                             />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-12">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-12">
                             {priorities.length > 0 && (
                                 <CustomSelect
                                     header="პრიორიტეტი*"
@@ -225,8 +220,9 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                             )}
                         </div>
                     </div>
-                    <div className="flex flex-col gap-6 w-[550px]">
-                        <div className="grid grid-cols-1">
+
+                    <div className="flex flex-col gap-6 w-full lg:w-[550px] mt-6 lg:mt-0">
+                        <div className="grid grid-cols-1 h-[300px]">
                             {departments.length > 0 && (
                                 <CustomSelect
                                     header="დეპარტამენტი*"
@@ -237,11 +233,10 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                 />
                             )}
 
-                            <div className="pt-20">
-                                {filteredEmployees.length > 0 && (
+                                {employees.length > 0 && (
                                     <CustomSelect
                                         header="თანამშრომელი*"
-                                        options={filteredEmployees.map(emp => ({
+                                        options={employees.map(emp => ({
                                             id: emp.id,
                                             name: `${emp.name} ${emp.surname}`,
                                             icon: emp.avatar
@@ -255,14 +250,13 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                         error={errors.employee_id?.message}
                                     />
                                 )}
-                            </div>
                         </div>
-                        <div className="grid grid-cols-2 pt-[150px]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 pt-6 lg:pt-[90px]">
                             <CustomDateInput
                                 header="შესრულების თარიღი*"
                                 label={
                                     errors.due_date
-                                        ? errors.due_date.message
+                                        ? "აირჩიეთ თარიღი"
                                         : "აირჩიეთ თარიღი"
                                 }
                                 register={register("due_date", {
@@ -272,12 +266,12 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                             />
                         </div>
                         {submitError && (
-                            <div className="mt-6 p-3 bg-red-50 text-redtext rounded-md  track">
+                            <div className="mt-4 lg:mt-6 p-3 bg-red-50 text-redtext rounded-md track">
                                 {submitError}
                             </div>
                         )}
 
-                        <div className="flex justify-end pt-24">
+                        <div className="flex justify-end pt-8 lg:pt-24">
                             <div>
                                 <CustomButton
                                     title={isLoading ? "იტვირთება..." : "დავალების შექმნა"}
@@ -288,7 +282,6 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                 />
                             </div>
                         </div>
-
                     </div>
                 </div>
             </form>
