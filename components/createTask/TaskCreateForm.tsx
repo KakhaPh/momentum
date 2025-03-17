@@ -16,6 +16,10 @@ import { fetchEmployees } from "../api/employees";
 import { createTask } from "../api/tasks";
 import CustomDateInput from "../custom/CustomDataInput";
 import { CreateTaskSchema, TaskSchema } from "../Schema/CreateTaskSchema";
+import { Status } from "../interfaces/Status";
+import { Priority } from "../interfaces/Priority";
+import { Department } from "../interfaces/Department";
+import { Employee } from "../interfaces/Employee";
 
 interface TaskCreateFormProps {
     onCancel?: () => void;
@@ -89,7 +93,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
             const savedForm = JSON.parse(savedFormString);
             Object.entries(savedForm).forEach(([key, value]) => {
                 if (value !== undefined) {
-                    setValue(key as keyof TaskSchema, value as any);
+                    setValue(key as keyof TaskSchema, value as TaskSchema[keyof TaskSchema]);
                 }
             });
         } catch (error) {
@@ -155,9 +159,8 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
             } else {
                 router.push('/');
             }
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error submitting task data:", error);
-            setSubmitError(error?.response?.data?.message || "დავალების შექმნა ვერ მოხერხდა");
         } finally {
             setIsLoading(false);
         }

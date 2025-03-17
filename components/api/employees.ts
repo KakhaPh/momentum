@@ -1,3 +1,4 @@
+import { Employee } from "../interfaces/Employee";
 import { request } from "../services/request";
 
 export const fetchEmployees = async (): Promise<Employee[]> => {

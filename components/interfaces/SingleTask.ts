@@ -1,4 +1,4 @@
-interface SingleTask {
+export interface SingleTask {
     id: number;
     name: string;
     description: string;

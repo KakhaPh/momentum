@@ -1,3 +1,5 @@
+import { SingleTask } from "../interfaces/SingleTask";
+import { Task } from "../interfaces/Task";
 import { request } from "../services/request";
 
 export const fetchTasks = async (): Promise<Task[]> => {
@@ -20,7 +22,7 @@ export const fetchTask = async (id: number): Promise<SingleTask> => {
     }
 };
 
-export const createTask = async (taskData: FormData): Promise<any> => {
+export const createTask = async (taskData: FormData): Promise<Task> => {
     try {
         const response = await request.post('tasks', taskData);
         return response.data;

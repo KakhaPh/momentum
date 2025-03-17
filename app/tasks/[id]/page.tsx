@@ -2,6 +2,8 @@
 
 import { fetchStatuses } from '@/components/api/statuses';
 import { fetchTask } from '@/components/api/tasks';
+import { SingleTask } from '@/components/interfaces/SingleTask';
+import { Status } from '@/components/interfaces/Status';
 import TaskStatusSelect from '@/components/statuses/TaskStatusSelect';
 import { departmentColors, priorityColors } from '@/components/utils/colors';
 import { Calendar, PieChart, User } from 'lucide-react';
@@ -35,7 +37,7 @@ const TaskPage = ({ params }: TaskPageProps) => {
                 const data = await fetchTask(id);
                 setTask(data);
             } catch (error) {
-                console.error('Task not found');
+                console.error('Task not found', error);
                 return notFound();
             }
         };
@@ -58,7 +60,7 @@ const TaskPage = ({ params }: TaskPageProps) => {
                 const data = await fetchStatuses();
                 setStatuses(data);
             } catch (error) {
-                console.error('Failed fetching statuses');
+                console.error('Failed fetching statuses', error);
             }
         };
 

@@ -4,11 +4,13 @@ import { fetchStatuses } from '../api/statuses';
 import { fetchTasks } from '../api/tasks';
 import StatusColumn from './StatusColumn';
 import { FilterContext } from '../context/FilterContext';
+import { Status } from '../interfaces/Status';
+import { Task } from '../interfaces/Task';
 
 const Statuses = () => {
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [error, setError] = useState<String | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
   const { selectedDepartments, selectedPriorities, selectedEmployees } = useContext(FilterContext);
 

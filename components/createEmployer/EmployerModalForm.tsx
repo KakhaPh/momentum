@@ -9,6 +9,8 @@ import { fetchDepartments } from "../api/department";
 import CustomSelectDepartments from "../custom/CustomSelectDepartments";
 import CustomFileUpload from "../custom/CustomFileUpload";
 import { CreateEmployeeFormSchema, EmployeeFormSchema } from "../Schema/CreateEmployerSchema";
+import { Employee } from "../interfaces/Employee";
+import { Department } from "../interfaces/Department";
 
 interface EmployerModalFormProps {
     onCancel: () => void;
@@ -60,10 +62,10 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
 
         try {
             const savedForm = JSON.parse(savedFormString);
-            const { avatar, ...restOfForm } = savedForm;
+            const { ...restOfForm } = savedForm;
             Object.entries(restOfForm).forEach(([key, value]) => {
                 if (value !== undefined) {
-                    setValue(key as keyof EmployeeFormSchema, value as any);
+                    setValue(key as keyof EmployeeFormSchema, value as Employee);
                 }
             });
         } catch (error) {
@@ -80,7 +82,7 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
         const formData = { ...watchAllFields };
 
         if (formData.avatar instanceof File) {
-            const { avatar, ...rest } = formData;
+            const { ...rest } = formData;
             sessionStorage.setItem("employeesForm", JSON.stringify(rest));
         } else {
             sessionStorage.setItem("employeesForm", JSON.stringify(formData));
@@ -123,9 +125,8 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
                 onSuccess();
             }
 
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error submitting employee data:", error);
-            setSubmitError(error?.response?.data?.message || "თანამშრომლის დამატება ვერ მოხერხდა");
         } finally {
             setIsLoading(false);
         }

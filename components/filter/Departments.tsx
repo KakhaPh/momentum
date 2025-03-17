@@ -5,6 +5,7 @@ import { fetchDepartments } from "../api/department";
 import CustomCheckbox from "../custom/CustomCheckbox";
 import CustomButton from "../custom/CustomButton";
 import { FilterContext } from "../context/FilterContext";
+import { Department } from "../interfaces/Department";
 
 const Departments = () => {
     const [departments, setDepartments] = useState<Department[]>([]);
@@ -19,6 +20,7 @@ const Departments = () => {
                 const data = await fetchDepartments();
                 setDepartments(data);
             } catch (error) {
+                console.error("Error", error)
                 setError('Failed to fetch Departments');
             } finally {
                 setIsLoading(false);
@@ -49,7 +51,8 @@ const Departments = () => {
     };
 
     const onSubmit = () => {
-        setSelectedDepartments(chooseDepartments)
+        setSelectedDepartments(chooseDepartments);
+        console.log(selectedDepartments);
     };
 
     if (error) return <div className="text-red-500 p-4">{error}</div>;
