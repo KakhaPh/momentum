@@ -20,6 +20,7 @@ import { Status } from "../interfaces/Status";
 import { Priority } from "../interfaces/Priority";
 import { Department } from "../interfaces/Department";
 import { Employee } from "../interfaces/Employee";
+import { X } from "lucide-react";
 
 interface TaskCreateFormProps {
     onCancel?: () => void;
@@ -53,6 +54,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const [employees, setEmployees] = useState<Employee[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
 
     const watchAllFields = watch();
@@ -148,12 +150,17 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
             await createTask(formData);
 
             sessionStorage.removeItem("taskForm");
-            reset();
-            if (onSuccess) {
-                onSuccess();
-            } else {
-                router.push('/');
-            }
+
+            setShowSuccessAlert(true);
+
+            setTimeout(() => {
+                reset();
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    router.push('/');
+                }
+            }, 3000);
         } catch (error) {
             console.error("Error submitting task data:", error);
         } finally {
@@ -167,71 +174,83 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const selectedEmployee = employees.find(e => e.id === watch("employee_id")) || null;
 
     return (
-        <div className="flex flex-col border-[0.3px] border-purplebg rounded-sm bg-[#f9f7fd] w-full min-h-[958px] p-4 md:p-8 lg:p-12">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col lg:flex-row pt-4 lg:pt-4 px-2 gap-6 lg:gap-40">
-                    <div className="flex flex-col gap-6 w-full lg:w-[550px]">
-                        <CustomInput
-                            header="სათაური*"
-                            label={
-                                errors.name
-                                    ? errors.name.message
-                                    : "მინიმუმ 2 სიმბოლო, მაქსიმუმ 255 სიმბოლო"
-                            }
-                            register={register("name", {
-                                onChange: () => trigger("name")
-                            })}
-                            style={getInputStyle("name")}
-                        />
-                        <div className="pt-4 lg:pt-8">
-                            <CustomTextArea
-                                header="აღწერა*"
+        <>
+            {showSuccessAlert && (
+                <div className="mb-4 p-3 bg-greentext/10 text-greentext rounded-md flex justify-between items-center">
+                    <span>ახალი დავალება წარმატებით დაემატა!</span>
+                    <button
+                        onClick={() => setShowSuccessAlert(false)}
+                        className="text-greentext"
+                    >
+                        <X size={24} className="text-greentext" />
+                    </button>
+                </div>
+            )}
+            <div className="flex flex-col border-[0.3px] border-purplebg rounded-sm bg-[#f9f7fd] w-full min-h-[958px] p-4 md:p-8 lg:p-12">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="flex flex-col lg:flex-row pt-4 lg:pt-4 px-2 gap-6 lg:gap-40">
+                        <div className="flex flex-col gap-6 w-full lg:w-[550px]">
+                            <CustomInput
+                                header="სათაური*"
                                 label={
-                                    errors.description
-                                        ? errors.description.message
+                                    errors.name
+                                        ? errors.name.message
                                         : "მინიმუმ 2 სიმბოლო, მაქსიმუმ 255 სიმბოლო"
                                 }
-                                register={register("description", {
-                                    onChange: () => trigger("description")
+                                register={register("name", {
+                                    onChange: () => trigger("name")
                                 })}
-                                style={getInputStyle("description")}
-                                rows={4}
+                                style={getInputStyle("name")}
                             />
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-12">
-                            {priorities.length > 0 && (
-                                <CustomSelect
-                                    header="პრიორიტეტი*"
-                                    options={priorities}
-                                    selectedOption={selectedPriority}
-                                    onSelect={handlePrioritySelect}
-                                    error={errors.priority_id?.message}
+                            <div className="pt-4 lg:pt-8">
+                                <CustomTextArea
+                                    header="აღწერა*"
+                                    label={
+                                        errors.description
+                                            ? errors.description.message
+                                            : "მინიმუმ 2 სიმბოლო, მაქსიმუმ 255 სიმბოლო"
+                                    }
+                                    register={register("description", {
+                                        onChange: () => trigger("description")
+                                    })}
+                                    style={getInputStyle("description")}
+                                    rows={4}
                                 />
-                            )}
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-12">
+                                {priorities.length > 0 && (
+                                    <CustomSelect
+                                        header="პრიორიტეტი*"
+                                        options={priorities}
+                                        selectedOption={selectedPriority}
+                                        onSelect={handlePrioritySelect}
+                                        error={errors.priority_id?.message}
+                                    />
+                                )}
 
-                            {statuses.length > 0 && (
-                                <CustomSelect
-                                    header="სტატუსი*"
-                                    options={statuses}
-                                    selectedOption={selectedStatus}
-                                    onSelect={handleStatusSelect}
-                                    error={errors.status_id?.message}
-                                />
-                            )}
+                                {statuses.length > 0 && (
+                                    <CustomSelect
+                                        header="სტატუსი*"
+                                        options={statuses}
+                                        selectedOption={selectedStatus}
+                                        onSelect={handleStatusSelect}
+                                        error={errors.status_id?.message}
+                                    />
+                                )}
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-6 w-full lg:w-[550px] mt-6 lg:mt-0">
-                        <div className="grid grid-cols-1 h-[300px]">
-                            {departments.length > 0 && (
-                                <CustomSelect
-                                    header="დეპარტამენტი*"
-                                    options={departments}
-                                    selectedOption={selectedDepartment}
-                                    onSelect={handleDepartmentSelect}
-                                    error={errors.department_id?.message}
-                                />
-                            )}
+                        <div className="flex flex-col gap-6 w-full lg:w-[550px] mt-6 lg:mt-0">
+                            <div className="grid grid-cols-1 h-[300px]">
+                                {departments.length > 0 && (
+                                    <CustomSelect
+                                        header="დეპარტამენტი*"
+                                        options={departments}
+                                        selectedOption={selectedDepartment}
+                                        onSelect={handleDepartmentSelect}
+                                        error={errors.department_id?.message}
+                                    />
+                                )}
 
                                 {employees.length > 0 && (
                                     <CustomSelect
@@ -250,42 +269,43 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                         error={errors.employee_id?.message}
                                     />
                                 )}
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 pt-6 lg:pt-[90px]">
-                            <CustomDateInput
-                                header="შესრულების თარიღი*"
-                                label={
-                                    errors.due_date
-                                        ? "აირჩიეთ თარიღი"
-                                        : "აირჩიეთ თარიღი"
-                                }
-                                register={register("due_date", {
-                                    onChange: () => trigger("due_date")
-                                })}
-                                style={getInputStyle("due_date")}
-                            />
-                        </div>
-                        {submitError && (
-                            <div className="mt-4 lg:mt-6 p-3 bg-red-50 text-redtext rounded-md track">
-                                {submitError}
                             </div>
-                        )}
-
-                        <div className="flex justify-end pt-8 lg:pt-24">
-                            <div>
-                                <CustomButton
-                                    title={isLoading ? "იტვირთება..." : "დავალების შექმნა"}
-                                    fill
-                                    style="rounded-md px-5 py-2.5"
-                                    type="submit"
-                                    disabled={isLoading}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 pt-6 lg:pt-[90px]">
+                                <CustomDateInput
+                                    header="შესრულების თარიღი*"
+                                    label={
+                                        errors.due_date
+                                            ? "აირჩიეთ თარიღი"
+                                            : "აირჩიეთ თარიღი"
+                                    }
+                                    register={register("due_date", {
+                                        onChange: () => trigger("due_date")
+                                    })}
+                                    style={getInputStyle("due_date")}
                                 />
+                            </div>
+                            {submitError && (
+                                <div className="mt-4 lg:mt-6 p-3 bg-red-50 text-redtext rounded-md track">
+                                    {submitError}
+                                </div>
+                            )}
+
+                            <div className="flex justify-end pt-8 lg:pt-24">
+                                <div>
+                                    <CustomButton
+                                        title={isLoading ? "იტვირთება..." : "დავალების შექმნა"}
+                                        fill
+                                        style="rounded-md px-5 py-2.5"
+                                        type="submit"
+                                        disabled={isLoading}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        </>
     );
 };
 
