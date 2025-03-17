@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import CustomButton from '../custom/CustomButton'
-import EmployerModal from '../Employee/EmployerModal'
+import EmployerModal from '../employee/EmployerModal'
 import { useRouter } from 'next/navigation'
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
                 <Link href={"/"} className='font-fredoka text-purpletext w-[168px] h-[38px] pt-[3.5px] text-[31px] leading-[100%]'>
                     Momentum
                 </Link>
-             
+
                 <div>
                     <Image
                         src={'/images/Hourglass.svg'}
@@ -31,8 +31,8 @@ const Header = () => {
 
             <div className='hidden md:flex w-[533px] h-10 gap-10 font-firago font-normal text-headlines'>
                 <EmployerModal />
-                <Link href={'#'} >
-                <CustomButton title='შექმენი ახალი დავალება' fill={true} icon={<PlusIcon />} style='w-[268px] h-10' onClick={() => router.push('#')}/>
+                <Link href={'/create'} >
+                    <CustomButton title='შექმენი ახალი დავალება' fill={true} icon={<PlusIcon />} style='w-[268px] h-10' onClick={() => router.push('#')} />
                 </Link>
             </div>
 
