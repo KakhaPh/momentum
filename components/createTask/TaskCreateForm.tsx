@@ -9,13 +9,13 @@ import CustomButton from "@/components/custom/CustomButton";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomTextArea from "@/components/custom/CustomTextArea";
 import CustomSelect from "@/components/custom/CustomSelect";
-import { CreateTaskSchema, TaskSchema } from "../formSchema/CreateTaskSchema";
 import { fetchStatuses } from "../api/statuses";
 import { fetchPriorities } from "../api/priorities";
 import { fetchDepartments } from "../api/department";
 import { fetchEmployees } from "../api/employees";
 import { createTask } from "../api/tasks";
 import CustomDateInput from "../custom/CustomDataInput";
+import { CreateTaskSchema, TaskSchema } from "../Schema/CreateTaskSchema";
 
 interface TaskCreateFormProps {
     onCancel?: () => void;
