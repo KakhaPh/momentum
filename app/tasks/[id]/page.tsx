@@ -33,7 +33,6 @@ const TaskPage = ({ params }: TaskPageProps) => {
                 setLoading(false);
             }
         };
-
         resolveParams();
     }, [params]);
 
