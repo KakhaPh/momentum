@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { MessageSquare } from 'lucide-react';
 import { formatDateGeorgian, truncateText } from '../utils/formatting';
 import { departmentColors, priorityColors } from '../utils/colors';
+import { Task } from '../interfaces/Task';
 
 interface CardProps {
     task: Task;

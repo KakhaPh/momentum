@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import { request } from '@/components/services/request';
+import { Status } from '../interfaces/Status';
 
 interface TaskStatusSelectProps {
     currentStatus: Status;

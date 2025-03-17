@@ -1,4 +1,9 @@
-interface Task {
+import { Department } from "./Department";
+import { Employee } from "./Employee";
+import { Priority } from "./Priority";
+import { Status } from "./Status";
+
+export interface Task {
     id: number;
     name: string;
     description: string;

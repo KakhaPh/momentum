@@ -1,6 +1,7 @@
 "use client";
 
 import { Camera, Trash2 } from "lucide-react";
+import Image from "next/image";
 import React, { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -56,8 +57,10 @@ const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
                 >
                     {imagePreview ? (
                         <div className="relative">
-                            <img
+                            <Image
                                 src={imagePreview}
+                                width={100}
+                                height={100}
                                 alt="Avatar Preview"
                                 className="w-[88px] h-[88px] object-cover"
                             />

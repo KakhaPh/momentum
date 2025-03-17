@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import { Department } from "../interfaces/Department";
 
 interface SelectDepartmentsProps {
     departments: Department[];

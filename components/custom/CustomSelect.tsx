@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Check, ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 interface Option {
     id: number;
@@ -76,7 +77,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                                 className="flex items-center p-2.5 cursor-pointer hover:bg-gray-100"
                                 onClick={() => handleSelect(option)}
                             >
-                                {option.icon && <img src={option.icon} alt="" className="w-5 h-5 mr-2" />}
+                                {option.icon && 
+                                    <Image src={option.icon} width={100} height={100} style={{width: "auto", height: "auto"}} alt="icon" className="w-5 h-5 mr-2" />
+                                }
                                 <span className={selected?.id === option.id ? "font-medium" : ""}>{option.name}</span>
                                 {selected?.id === option.id && <Check size={16} className="ml-auto text-greentext" />}
                             </div>

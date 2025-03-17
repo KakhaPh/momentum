@@ -5,6 +5,7 @@ import CustomCheckbox from "../custom/CustomCheckbox";
 import CustomButton from "../custom/CustomButton";
 import { fetchPriorities } from "../api/priorities";
 import { FilterContext } from "../context/FilterContext";
+import { Priority } from "../interfaces/Priority";
 
 
 const Priorities = () => {
@@ -20,6 +21,7 @@ const Priorities = () => {
                 const data = await fetchPriorities();
                 setPriorities(data);
             } catch (error) {
+                console.error("Failed", error);
                 setError('Failed to fetch Priorities');
             } finally {
                 setIsLoading(false);
@@ -49,7 +51,8 @@ const { selectedPriorities, setSelectedPriorities } = useContext(FilterContext);
     }
 
     const onSubmit = () => {
-        setSelectedPriorities(choosePriselectedPriorities)
+        setSelectedPriorities(choosePriselectedPriorities);
+        console.log(selectedPriorities);
     };
 
     if (error) return <>{error}</>

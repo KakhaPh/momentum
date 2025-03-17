@@ -5,6 +5,7 @@ import CustomButton from "../custom/CustomButton";
 import { fetchEmployees } from "../api/employees";
 import CustomCheckbox from "../custom/CustomCheckbox";
 import { FilterContext } from "../context/FilterContext";
+import { Employee } from "../interfaces/Employee";
 
 const Employees = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
@@ -19,6 +20,7 @@ const Employees = () => {
                 const data = await fetchEmployees();
                 setEmployees(data);
             } catch (error) {
+                console.error("Failed", error);
                 setError('Failed to fetch employees');
             } finally {
                 setIsLoading(false);
@@ -49,7 +51,8 @@ const Employees = () => {
     };
 
     const onSubmit = () => {
-        setSelectedEmployees(chooseEmployees)
+        setSelectedEmployees(chooseEmployees);
+        console.log(selectedEmployees);
     };
 
 

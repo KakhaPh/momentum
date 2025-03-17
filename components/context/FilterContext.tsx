@@ -56,7 +56,7 @@ export const FilterProvider: React.FC<{ children: ReactNode }> = ({
             sessionStorage.setItem("selectedPriorities", JSON.stringify(selectedPriorities));
             sessionStorage.setItem("selectedEmployees", JSON.stringify(selectedEmployees));
         }
-    }, [selectedDepartments]);
+    }, [selectedDepartments, selectedEmployees, selectedPriorities]);
 
     const cleanBar = () => {
         setSelectedDepartments([]);
