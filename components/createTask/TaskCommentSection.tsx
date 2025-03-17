@@ -163,12 +163,15 @@ const TaskCommentSection = ({ taskId }: TaskCommentSectionProps) => {
                     comments.map((comment) => (
                         <div key={comment.id} className="mb-6">
                             <div className="flex items-start gap-3">
-                                <Image
+                            <Image
                                     src={comment.author_avatar}
                                     alt={comment.author_nickname}
                                     width={38}
                                     height={38}
                                     className="rounded-full object-left-top object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.src = '/images/Hourglass.png';
+                                    }}
                                 />
                                 <div className="flex-1 w-[500px]">
                                     <p className="font-medium text-lg leading-[100%] tracking-normal text-headlines pb-2">{comment.author_nickname}</p>
