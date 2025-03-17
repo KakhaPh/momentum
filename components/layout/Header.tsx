@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import CustomButton from '../custom/CustomButton'
-import EmployerModal from '../employee/EmployerModal'
 import { useRouter } from 'next/navigation'
+import EmployerModal from '../createEmployer/EmployerModal';
 
 const Header = () => {
     const router = useRouter();
