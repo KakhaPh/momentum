@@ -30,7 +30,7 @@ const Priorities = () => {
 
         getPriorities();
     }, []);
-const { selectedPriorities, setSelectedPriorities } = useContext(FilterContext);
+    const { selectedPriorities, setSelectedPriorities } = useContext(FilterContext);
     const [choosePriselectedPriorities, setChoosenPriselectedPriorities] = useState<string[]>([]);
 
     const handlePrioritySelection = (departmentId: number, departmentName: string) => {
@@ -56,32 +56,41 @@ const { selectedPriorities, setSelectedPriorities } = useContext(FilterContext);
     };
 
     if (error) return <>{error}</>
-    if (isLoading) return <>Loading Priorities...</>
     return (
-        <div className="absolute min-w-[688px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
-            <div className="gap-2 min-h-[165px]">
-                {Priorities.map((priority) => (
-                    <div key={priority.id} className="p-4">
-                        <label className="flex items-center space-x-2 cursor-pointer">
-                            <CustomCheckbox
-                                title={priority.name}
-                                checked={!!checkedState[priority.id]}
-                                onSelect={() => handlePrioritySelection(priority.id, priority.name)}
-                            />
-                        </label>
+        <div className="absolute min-w-[688px] min-h-[234px] mt-[5px] flex flex-col gap-1 border-[1px] border-purpletext rounded-md bg-white z-10">
+            {isLoading ? (
+                <div className="flex justify-center items-center h-[234px]">
+                    <div className="text-center p-8">
+                        <div className="w-12 h-12 border-4 border-purpletext/20 border-t-purpletext rounded-full animate-spin mb-4 mx-auto"></div>
                     </div>
-                ))}
-            </div>
-            <div className="flex justify-between items-center p-3 border-t border-gray-200">
-                <div className="text-sm text-gray-600">
-                    {getSelectedCount()} selected
                 </div>
-                <CustomButton
-                    title={'არჩევა'}
-                    fill
-                    onClick={onSubmit}
-                />
-            </div>
+            ) : (
+                <>
+                    <div className="gap-2 min-h-[165px]">
+                        {Priorities.map((priority) => (
+                            <div key={priority.id} className="p-4">
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                    <CustomCheckbox
+                                        title={priority.name}
+                                        checked={!!checkedState[priority.id]}
+                                        onSelect={() => handlePrioritySelection(priority.id, priority.name)}
+                                    />
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex justify-between items-center p-3 border-t border-gray-200">
+                        <div className="text-sm text-gray-600">
+                            {getSelectedCount()} selected
+                        </div>
+                        <CustomButton
+                            title={'არჩევა'}
+                            fill
+                            onClick={onSubmit}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

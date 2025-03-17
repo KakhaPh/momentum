@@ -11,6 +11,7 @@ import CustomFileUpload from "../custom/CustomFileUpload";
 import { CreateEmployeeFormSchema, EmployeeFormSchema } from "../Schema/CreateEmployerSchema";
 import { Employee } from "../interfaces/Employee";
 import { Department } from "../interfaces/Department";
+import { X } from "lucide-react";
 
 interface EmployerModalFormProps {
     onCancel: () => void;
@@ -34,6 +35,7 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
     const [departments, setDepartments] = useState<Department[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
     useEffect(() => {
         const getDepartments = async () => {
@@ -107,26 +109,31 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
         const formData = new FormData();
 
         try {
-            console.log("Data", data)
             formData.append("name", data.name);
             formData.append("surname", data.surname);
-			if (data.avatar.length > 0) {
-				formData.append("avatar", data.avatar[0]);
-			}
+            if (data.avatar.length > 0) {
+                formData.append("avatar", data.avatar[0]);
+            }
             formData.append("department_id", data.department_id.toString());
 
             await request.post("employees", formData);
 
             sessionStorage.removeItem("employeesForm");
-            
-            reset();
-            onCancel();
-            if (onSuccess) {
-                onSuccess();
-            }
+
+            setShowSuccessAlert(true);
+
+            setTimeout(() => {
+                setShowSuccessAlert(false);
+                reset();
+                onCancel();
+                if (onSuccess) {
+                    onSuccess();
+                }
+            }, 3000);
 
         } catch (error) {
             console.error("Error submitting employee data:", error);
+            setSubmitError("Error creating employee. Please try again.");
         } finally {
             setIsLoading(false);
         }
@@ -139,71 +146,85 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-2 gap-6 mt-4">
-                <CustomInput
-                    header="სახელი*"
-                    label={
-                        errors.name
-                            ? errors.name.message
-                            : "მინიმუმ 2 სიმბოლო"
-                    }
-                    register={register("name", {
-                        onChange: () => trigger("name")
-                    })}
-                    style={getInputStyle("name")} />
-
-                <CustomInput
-                    header="გვარი*"
-                    label={
-                        errors.surname
-                            ? errors.surname.message
-                            : "მინიმუმ 2 სიმბოლო"
-                    }
-                    register={register("surname", {
-                        onChange: () => trigger("surname")
-                    })}
-                    style={getInputStyle("surname")} />
-            </div>
-
-            <div className="mt-6 mb-6">
-                <CustomFileUpload
-                    header={"ატვირთეთ ფოტო*"}
-                    register={register("avatar")}
-                    style={getInputStyle("avatar")}
-                />
-            </div>
-
-            <div className="mt-6">
-                <CustomSelectDepartments
-                    departments={departments}
-                    selectedDepartment={watch("department")}
-                    onSelect={handleDepartmentSelect}
-                    error={errors.department?.message}
-                />
-            </div>
-
-            {submitError && (
-                <div className="mt-4 p-3 bg-red-50 text-redtext rounded-md">
-                    {submitError}
+        <>
+            {showSuccessAlert && (
+                <div className="mb-4 p-3 bg-greentext/10 text-greentext rounded-md flex justify-between items-center">
+                    <span>თანამშრომელი წარმატებით დაემატა!</span>
+                    <button
+                        onClick={() => setShowSuccessAlert(false)}
+                        className="text-greentext"
+                    >
+                        <X size={24} className="text-greentext" />
+                    </button>
                 </div>
             )}
 
-            <div className="mt-10 flex justify-end space-x-4">
-                <div onClick={handleCancel}>
-                    <CustomButton title="გაუქმება" style="px-6 py-2 transition-colors" />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid grid-cols-2 gap-6 mt-4">
+                    <CustomInput
+                        header="სახელი*"
+                        label={
+                            errors.name
+                                ? errors.name.message
+                                : "მინიმუმ 2 სიმბოლო"
+                        }
+                        register={register("name", {
+                            onChange: () => trigger("name")
+                        })}
+                        style={getInputStyle("name")} />
+
+                    <CustomInput
+                        header="გვარი*"
+                        label={
+                            errors.surname
+                                ? errors.surname.message
+                                : "მინიმუმ 2 სიმბოლო"
+                        }
+                        register={register("surname", {
+                            onChange: () => trigger("surname")
+                        })}
+                        style={getInputStyle("surname")} />
                 </div>
-                <div>
-                    <CustomButton
-                        title={isLoading ? "იტვირთება..." : "დამატება"}
-                        fill
-                        style="px-6 py-2"
-                        type="submit"
-                        disabled={isLoading}
+
+                <div className="mt-6 mb-6">
+                    <CustomFileUpload
+                        header={"ატვირთეთ ფოტო*"}
+                        register={register("avatar")}
+                        style={getInputStyle("avatar")}
                     />
                 </div>
-            </div>
-        </form>
+
+                <div className="mt-6">
+                    <CustomSelectDepartments
+                        departments={departments}
+                        selectedDepartment={watch("department")}
+                        onSelect={handleDepartmentSelect}
+                        error={errors.department?.message}
+                    />
+                </div>
+
+                {submitError && (
+                    <div className="mt-4 p-3 bg-red-50 text-redtext rounded-md">
+                        {submitError}
+                    </div>
+                )}
+
+                <div className="mt-10 flex justify-end space-x-4">
+                    <div onClick={handleCancel}>
+                        <CustomButton title="გაუქმება" style="px-6 py-2 transition-colors" />
+                    </div>
+                    <div>
+                        <CustomButton
+                            title={isLoading ? "იტვირთება..." : "დამატება"}
+                            fill
+                            style="px-6 py-2"
+                            type="submit"
+                            disabled={isLoading}
+                        />
+                    </div>
+                </div>
+            </form>
+        </>
     );
 };
 

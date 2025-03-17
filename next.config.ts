@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'momentum.redberryinternship.ge',
         pathname: '/storage/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
+        pathname: '/**',
+      },
     ],
   },
 };

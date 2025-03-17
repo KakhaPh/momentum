@@ -53,8 +53,17 @@ const Statuses = () => {
     });
   };
 
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (isLoading) return <div>Loading data...</div>;
+  if (error) return <div className="text-redtext">{error}</div>;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="text-center p-8">
+          <div className="w-12 h-12 border-4 border-purpletext/20 border-t-purpletext rounded-full animate-spin mb-4 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full h-fit gap-4 md:gap-6 lg:gap-[50px] mt-6 md:mt-12'>
