@@ -19,3 +19,13 @@ export const fetchTask = async (id: number): Promise<SingleTask> => {
         throw error;
     }
 };
+
+export const createTask = async (taskData: FormData): Promise<any> => {
+    try {
+        const response = await request.post('tasks', taskData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating task:', error);
+        throw error;
+    }
+};
