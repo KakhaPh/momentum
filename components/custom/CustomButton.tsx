@@ -7,6 +7,7 @@ interface ICustomButtonProps {
     fill?: boolean;
     style?: string;
     type?: "button" | "submit" | "reset";
+    disabled?: boolean;
 }
 
 const CustomButton: React.FC<ICustomButtonProps> = ({
@@ -16,14 +17,17 @@ const CustomButton: React.FC<ICustomButtonProps> = ({
     fill,
     style,
     type,
+    disabled = false,
 }) => {
     return (
         <button
             className={`${fill ? "flex items-center gap-1 bg-purpletext hover:bg-purplehover text-whitetext"
                 : "border-[1px] border-purpletext hover:border-purplehover"} 
-                "text-[16px] leading-none tracking-normal rounded-[5px]  transition duration-200 whitespace-nowrap cursor-pointer px-5 py-2.5 ${style}"`}
+                ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                text-[16px] leading-none tracking-normal rounded-[5px] transition duration-200 whitespace-nowrap px-5 py-2.5 ${style}`}
             onClick={onClick}
             type={type}
+            disabled={disabled}
         >
             {icon}
             {title}
