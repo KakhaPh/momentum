@@ -9,7 +9,6 @@ import TaskStatusSelect from '@/components/statuses/TaskStatusSelect';
 import { departmentColors, priorityColors } from '@/components/utils/colors';
 import { Calendar, PieChart, User } from 'lucide-react';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface TaskPageProps {
@@ -29,11 +28,11 @@ const TaskPage = ({ params }: TaskPageProps) => {
                 const resolvedParams = await params;
                 setId(resolvedParams.id);
             } catch (error) {
+                console.error("Error", error);
                 setError('პარამეტრები მიუღებელია!');
                 setLoading(false);
             }
         };
-
         resolveParams();
     }, [params]);
 
