@@ -76,7 +76,8 @@ const TaskCommentSection = ({ taskId }: TaskCommentSectionProps) => {
             await postComment(taskId, newComment);
 
             const updatedComments = await fetchComments(taskId);
-            setComments(updatedComments);
+            setComments([updatedComments[updatedComments.length - 1], ...updatedComments.slice(0, -1)]);
+
             setNewComment('');
         } catch (error) {
             console.error('Error posting comment:', error);
