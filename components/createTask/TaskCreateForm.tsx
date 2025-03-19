@@ -21,6 +21,7 @@ import { Priority } from "../interfaces/Priority";
 import { Department } from "../interfaces/Department";
 import { Employee } from "../interfaces/Employee";
 import { X } from "lucide-react";
+import { useModal } from "../context/ModalContext";
 
 interface TaskCreateFormProps {
     onCancel?: () => void;
@@ -29,6 +30,8 @@ interface TaskCreateFormProps {
 
 const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const router = useRouter();
+    const { openEmployerModal } = useModal();
+    
     const {
         register,
         handleSubmit,
@@ -56,8 +59,11 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [emplByDept, setEmplByDept] = useState<Employee[]>([]);
 
     const watchAllFields = watch();
+
+
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -73,6 +79,14 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                 setPriorities(prioritiesData);
                 setDepartments(departmentsData);
                 setEmployees(employeesData);
+
+                if (prioritiesData.length >= 0) {
+                    setValue("priority_id", prioritiesData[1].id);
+                }
+                
+                if (statusesData.length >= 0) {
+                    setValue("status_id", statusesData[0].id);
+                }
             } catch (error) {
                 console.error("Failed to fetch initial data:", error);
             }
@@ -81,6 +95,9 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
         fetchInitialData();
     }, []);
 
+    const handleAddEmployee = () => {
+        openEmployerModal();
+    };
 
     useEffect(() => {
         const savedFormString = sessionStorage.getItem("taskForm");
@@ -114,6 +131,14 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
 
     const handleDepartmentSelect = (id: number) => {
         setValue("department_id", id, { shouldValidate: true });
+        setValue("employee_id", 0, { shouldValidate: false });
+
+        if (id && employees.length > 0) {
+            const filteredEmployees = employees.filter(emp => emp.department.id === id)
+            setEmplByDept(filteredEmployees);
+        } else {
+            setEmplByDept([]);
+        }
     };
 
     const handleEmployeeSelect = (id: number) => {
@@ -218,57 +243,54 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                                 />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-12">
-                                {priorities.length > 0 && (
-                                    <CustomSelect
-                                        header="პრიორიტეტი*"
-                                        options={priorities}
-                                        selectedOption={selectedPriority}
-                                        onSelect={handlePrioritySelect}
-                                        error={errors.priority_id?.message}
-                                    />
-                                )}
+                                <CustomSelect
+                                    header="პრიორიტეტი*"
+                                    options={priorities}
+                                    selectedOption={selectedPriority}
+                                    onSelect={handlePrioritySelect}
+                                    error={errors.priority_id?.message}
+                                />
 
-                                {statuses.length > 0 && (
-                                    <CustomSelect
-                                        header="სტატუსი*"
-                                        options={statuses}
-                                        selectedOption={selectedStatus}
-                                        onSelect={handleStatusSelect}
-                                        error={errors.status_id?.message}
-                                    />
-                                )}
+                                <CustomSelect
+                                    header="სტატუსი*"
+                                    options={statuses}
+                                    selectedOption={selectedStatus}
+                                    onSelect={handleStatusSelect}
+                                    error={errors.status_id?.message}
+                                />
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-6 w-full lg:w-[550px] mt-6 lg:mt-0">
                             <div className="grid grid-cols-1 h-[300px]">
-                                {departments.length > 0 && (
-                                    <CustomSelect
-                                        header="დეპარტამენტი*"
-                                        options={departments}
-                                        selectedOption={selectedDepartment}
-                                        onSelect={handleDepartmentSelect}
-                                        error={errors.department_id?.message}
-                                    />
-                                )}
+                                <CustomSelect
+                                    header="დეპარტამენტი*"
+                                    options={departments}
+                                    selectedOption={selectedDepartment}
+                                    onSelect={handleDepartmentSelect}
+                                    error={errors.department_id?.message}
+                                />
 
-                                {employees.length > 0 && (
-                                    <CustomSelect
-                                        header="თანამშრომელი*"
-                                        options={employees.map(emp => ({
-                                            id: emp.id,
-                                            name: `${emp.name} ${emp.surname}`,
-                                            icon: emp.avatar
-                                        }))}
-                                        selectedOption={selectedEmployee ? {
-                                            id: selectedEmployee.id,
-                                            name: `${selectedEmployee.name} ${selectedEmployee.surname}`,
-                                            icon: selectedEmployee.avatar
-                                        } : null}
-                                        onSelect={handleEmployeeSelect}
-                                        error={errors.employee_id?.message}
-                                    />
-                                )}
+                                <CustomSelect
+                                    header="თანამშრომელი*"
+                                    options={emplByDept.map(emp => ({
+                                        id: emp.id,
+                                        name: `${emp.name} ${emp.surname}`,
+                                        icon: emp.avatar
+                                    }))}
+                                    selectedOption={selectedEmployee ? {
+                                        id: selectedEmployee.id,
+                                        name: `${selectedEmployee.name} ${selectedEmployee.surname}`,
+                                        icon: selectedEmployee.avatar
+                                    } : null}
+                                    onSelect={handleEmployeeSelect}
+                                    disabled={!selectedDepartment}
+                                    className={`${!selectedDepartment ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                    addButtonText="დაამატე თანამშრომელი"
+                                    showAddButton
+                                    onAddNew={handleAddEmployee}
+                                    error={errors.employee_id?.message}
+                                />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 pt-6 lg:pt-[90px]">
                                 <CustomDateInput
