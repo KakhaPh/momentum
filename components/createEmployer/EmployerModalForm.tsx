@@ -163,27 +163,43 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
                 <div className="grid grid-cols-2 gap-6 mt-4">
                     <CustomInput
                         header="სახელი*"
-                        label={
-                            errors.name
-                                ? errors.name.message
-                                : "მინიმუმ 2 სიმბოლო"
-                        }
                         register={register("name", {
                             onChange: () => trigger("name")
                         })}
-                        style={getInputStyle("name")} />
+                        style={getInputStyle("name")}
+                        requirements={[
+                            {
+                                id: "min-length",
+                                label: "მინიმუმ 2 სიმბოლო",
+                                validator: (value) => value?.length >= 2,
+                            },
+                            {
+                                id: "max-length",
+                                label: "მაქსიმუმ 255 სიმბოლო",
+                                validator: (value) => value?.length <= 255,
+                            },
+                        ]}
+                    />
 
                     <CustomInput
                         header="გვარი*"
-                        label={
-                            errors.surname
-                                ? errors.surname.message
-                                : "მინიმუმ 2 სიმბოლო"
-                        }
                         register={register("surname", {
                             onChange: () => trigger("surname")
                         })}
-                        style={getInputStyle("surname")} />
+                        style={getInputStyle("surname")}
+                        requirements={[
+                            {
+                                id: "min-length",
+                                label: "მინიმუმ 2 სიმბოლო",
+                                validator: (value) => value?.length >= 2,
+                            },
+                            {
+                                id: "max-length",
+                                label: "მაქსიმუმ 255 სიმბოლო",
+                                validator: (value) => value?.length <= 255,
+                            },
+                        ]}
+                    />
                 </div>
 
                 <div className="mt-6 mb-6">
@@ -199,7 +215,7 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
                         departments={departments}
                         selectedDepartment={watch("department")}
                         onSelect={handleDepartmentSelect}
-                        error={errors.department?.message}
+                        error={!!errors.department ? " " : undefined}
                     />
                 </div>
 
