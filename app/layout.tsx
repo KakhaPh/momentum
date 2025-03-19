@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { ModalProvider } from "@/components/context/ModalContext";
-import EmployerModal from "@/components/createEmployer/EmployerModal";
 
 export const metadata: Metadata = {
   title: "Momentum",

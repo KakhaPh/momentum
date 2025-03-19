@@ -74,7 +74,7 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
             console.error("Error parsing saved form data:", error);
             sessionStorage.removeItem("employeesForm");
         }
-    }, [setValue]);
+    }, []);
 
     const watchAllFields = watch();
 
@@ -206,7 +206,6 @@ const EmployerModalForm: React.FC<EmployerModalFormProps> = ({ onCancel, onSucce
                     <CustomFileUpload
                         header={"ატვირთეთ ფოტო*"}
                         register={register("avatar")}
-                        style={getInputStyle("avatar")}
                     />
                 </div>
 

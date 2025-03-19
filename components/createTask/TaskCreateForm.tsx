@@ -93,7 +93,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
         };
 
         fetchInitialData();
-    }, []);
+    }, [setValue]);
 
     const handleAddEmployee = () => {
         openEmployerModal();

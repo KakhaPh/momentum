@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Requirement {
     id: string;

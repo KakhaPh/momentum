@@ -7,7 +7,6 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 interface ICustomFileUploadProps {
     header: string;
-    style?: "default" | "error" | "success";
     onFileChange?: (file: File | null) => void;
     label?: string | null;
     register?: UseFormRegisterReturn;
@@ -15,7 +14,6 @@ interface ICustomFileUploadProps {
 
 const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
     header,
-    style = "default",
     onFileChange,
     register,
     label,
