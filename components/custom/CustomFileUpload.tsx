@@ -2,12 +2,11 @@
 
 import { Camera, Trash2 } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface ICustomFileUploadProps {
     header: string;
-    style?: "default" | "error" | "success";
     onFileChange?: (file: File | null) => void;
     label?: string | null;
     register?: UseFormRegisterReturn;
@@ -15,12 +14,20 @@ interface ICustomFileUploadProps {
 
 const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
     header,
-    style = "default",
     onFileChange,
     register,
     label,
 }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [currentStyle, setCurrentStyle] = useState<"default" | "error" | "success">("default");
+
+    useEffect(() => {
+        if (imagePreview) {
+            setCurrentStyle("success");
+        } else if (currentStyle !== "error") {
+            setCurrentStyle("default");
+        }
+    }, [imagePreview]);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -42,8 +49,25 @@ const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
         }
     };
 
+    const handleRemoveImage = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setImagePreview(null);
+        setCurrentStyle("error");
+
+        if (onFileChange) {
+            onFileChange(null);
+        }
+
+        const fileInput = document.getElementById("dropzone-file") as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = "";
+        }
+    };
+
     const styleClasses = {
-        default: "!border-[#808A93]",
+        default: "!border-headlines",
         error: "!border-redtext",
         success: "!border-greentext",
     };
@@ -53,7 +77,7 @@ const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
             <h1 className="medium-text">{header}</h1>
             <label htmlFor="dropzone-file">
                 <div
-                    className={`w-full h-[120px] border-2 border-dashed rounded-md flex items-center justify-center relative overflow-hidden ${styleClasses[style]}`}
+                    className={`w-full h-[120px] border-2 border-dashed rounded-md flex items-center justify-center relative overflow-hidden ${styleClasses[currentStyle]}`}
                 >
                     {imagePreview ? (
                         <div className="relative">
@@ -62,14 +86,18 @@ const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
                                 width={100}
                                 height={100}
                                 alt="Avatar Preview"
-                                className="w-[88px] h-[88px] object-cover"
+                                className="w-[88px] h-[88px] object-cover rounded-full"
                             />
-                            <div className="absolute bottom-1 right-1 shadow-xs bg-white text-graysh p-1 rounded-full cursor-pointer">
+                            <div
+                                className="absolute bottom-1 right-1 shadow-xs bg-white text-graysh p-1 rounded-full cursor-pointer"
+                                onClick={handleRemoveImage}
+                                onMouseDown={(e) => e.stopPropagation()}
+                            >
                                 <Trash2 size={16} />
                             </div>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center justify-center cursor-pointer" >
+                        <div className="flex flex-col items-center justify-center cursor-pointer">
                             <Camera size={48} className="text-graysh mb-2" />
                             <p className="text-sm text-headlines">
                                 აირჩიეთ სურათი ან ჩააგდეთ აქ
@@ -85,15 +113,16 @@ const CustomFileUpload: React.FC<ICustomFileUploadProps> = ({
                             ? { ...register, onChange: undefined }
                             : {})}
                         onChange={handleFileChange}
+                        accept="image/*"
                     />
                 </div>
             </label>
 
             {label && (
                 <span
-                    className={`text-sm ${style === "default"
+                    className={`text-sm ${currentStyle === "default"
                         ? "text-headlines"
-                        : style === "error"
+                        : currentStyle === "error"
                             ? "!text-redtext"
                             : "!text-greentext"
                         }`}
