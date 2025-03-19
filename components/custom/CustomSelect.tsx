@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, PlusCircle } from "lucide-react";
 import Image from "next/image";
 
 interface Option {
@@ -15,6 +15,11 @@ interface CustomSelectProps {
     selectedOption?: Option | null;
     onSelect: (id: number, name: string) => void;
     error?: string;
+    disabled?: boolean;
+    className?: string;
+    onAddNew?: () => void;
+    showAddButton?: boolean;
+    addButtonText?: string;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -23,7 +28,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     options,
     selectedOption,
     onSelect,
-    error
+    onAddNew,
+    addButtonText,
+    showAddButton = false,
+    error,
+    disabled,
+    className
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<Option | null>(selectedOption || null);
@@ -54,20 +64,31 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         setIsOpen(false);
     };
 
+    const handleAddClick = () => {
+        if (onAddNew) {
+            onAddNew();
+            setIsOpen(false);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <p className="text-headlines">{header}</p>
             <div ref={dropdownRef} className="relative bg-white">
                 <div
-                    className={`p-2.5 rounded-md border-[1px] outline-none appearance-none flex justify-between items-center cursor-pointer
+                    className={`p-2.5 rounded-md border-[1px] outline-none appearance-none flex justify-between items-center ${className}
                         ${!error ? "border-graysh" : "border-redtext"}
-                        ${selected ? "text-black" : "text-gray-400"}
+                        ${selected && "text-black"}
                     `}
-                    onClick={() => setIsOpen(!isOpen)}
-                >   
+                    onClick={() => {
+                        if (!disabled) {
+                            setIsOpen(!isOpen);
+                        }
+                    }}
+                >
                     <span>
                         {selected ? (
-                            <div className="flex">
+                            <div className={`flex ${className}`}>
                                 {selected.icon && <Image src={selected.icon} width={20} height={20} alt="icon" className="rounded-full h-6 w-6 object-cover object-top mr-2" />}
                                 {selected.name}
                             </div>
@@ -80,13 +101,22 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
                 {isOpen && (
                     <div className="absolute z-10 mt-1 w-full bg-white border border-graysh rounded-md shadow-lg max-h-60 overflow-auto">
+                        {showAddButton && (
+                            <div
+                                className="flex items-center p-2.5 cursor-pointer text-purpletext hover:bg-gray-100"
+                                onClick={handleAddClick}
+                            >
+                                <PlusCircle size={18} className="mr-2" />
+                                <span>{addButtonText}</span>
+                            </div>
+                        )}
                         {options.map((option) => (
                             <div
                                 key={option.id}
                                 className="flex items-center p-2.5 cursor-pointer hover:bg-gray-100"
                                 onClick={() => handleSelect(option)}
                             >
-                                {option.icon && 
+                                {option.icon &&
                                     <Image src={option.icon} width={20} height={20} alt="icon" className="rounded-full h-7 w-7 object-cover object-top mr-4" />
                                 }
                                 <span className={selected?.id === option.id ? "font-medium" : ""}>{option.name}</span>
