@@ -31,7 +31,7 @@ interface TaskCreateFormProps {
 const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
     const router = useRouter();
     const { openEmployerModal } = useModal();
-    
+
     const {
         register,
         handleSubmit,
@@ -83,7 +83,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                 if (prioritiesData.length >= 0) {
                     setValue("priority_id", prioritiesData[1].id);
                 }
-                
+
                 if (statusesData.length >= 0) {
                     setValue("status_id", statusesData[0].id);
                 }
@@ -217,29 +217,43 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                         <div className="flex flex-col gap-6 w-full lg:w-[550px]">
                             <CustomInput
                                 header="სათაური*"
-                                label={
-                                    errors.name
-                                        ? errors.name.message
-                                        : "მინიმუმ 2 სიმბოლო, მაქსიმუმ 255 სიმბოლო"
-                                }
                                 register={register("name", {
                                     onChange: () => trigger("name")
                                 })}
                                 style={getInputStyle("name")}
+                                requirements={[
+                                    {
+                                        id: "min-length",
+                                        label: "მინიმუმ 2 სიმბოლო",
+                                        validator: (value) => value?.length >= 2,
+                                    },
+                                    {
+                                        id: "max-length",
+                                        label: "მაქსიმუმ 255 სიმბოლო",
+                                        validator: (value) => value?.length <= 255,
+                                    },
+                                ]}
                             />
-                            <div className="pt-4 lg:pt-8">
+                            <div className="pt-4 lg:pt-0">
                                 <CustomTextArea
                                     header="აღწერა*"
-                                    label={
-                                        errors.description
-                                            ? errors.description.message
-                                            : "მინიმუმ 2 სიმბოლო, მაქსიმუმ 255 სიმბოლო"
-                                    }
                                     register={register("description", {
                                         onChange: () => trigger("description")
                                     })}
                                     style={getInputStyle("description")}
                                     rows={4}
+                                    requirements={[
+                                        {
+                                            id: "min-length",
+                                            label: "მინიმუმ 2 სიმბოლო",
+                                            validator: (value) => value?.length >= 2,
+                                        },
+                                        {
+                                            id: "max-length",
+                                            label: "მაქსიმუმ 255 სიმბოლო",
+                                            validator: (value) => value?.length <= 255,
+                                        },
+                                    ]}
                                 />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-6 lg:pt-12">
