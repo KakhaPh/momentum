@@ -309,15 +309,17 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 pt-6 lg:pt-[90px]">
                                 <CustomDateInput
                                     header="შესრულების თარიღი*"
-                                    label={
-                                        errors.due_date
-                                            ? "აირჩიეთ თარიღი"
-                                            : "აირჩიეთ თარიღი"
-                                    }
                                     register={register("due_date", {
                                         onChange: () => trigger("due_date")
                                     })}
                                     style={getInputStyle("due_date")}
+                                    requirements={[
+                                        {
+                                            id: "select-date",
+                                            label: "აირჩიეთ თარიღი",
+                                            validator: (value) => value?.trim() !== "",
+                                        },
+                                    ]}
                                 />
                             </div>
                             {submitError && (
@@ -344,5 +346,4 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({ onSuccess }) => {
         </>
     );
 };
-
 export default TaskCreateForm;
